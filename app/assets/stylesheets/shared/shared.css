@@ -1,0 +1,18 @@
+tr {
+  vertical-align: text-top;
+}
+
+th {
+  text-align: left;
+  border-bottom: 1px solid black;  
+}
+
+th.total {
+  text-align: right;
+  border-bottom: 1px solid black;  
+}
+
+td.total {
+  text-align: right;
+  border-top: double black;
+}

@@ -1,0 +1,62 @@
+<% if @search_field %>
+<h1>Repairs where <%= @search_field.capitalize %> matches "<%= @search_text %>"</h1>
+<% else %>
+<h1>Repairs</h1>
+<% end %>
+
+<table width="100%">
+  <tr>
+    <th>Store</th>
+    <th>Job#</th>
+    <th>Name</th>
+    <th>Item</th>
+    <th>ID#</th>
+    <th>Received</th>
+    <th>Returned</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @repairs.each do |repair| %>
+  <tr>
+    <td><%= repair.store.name %></td>
+    <td><%= repair.job %></td>
+    <td><%= repair.name %></td>
+    <td><%= repair.item %></td>
+    <td><%= repair.serial %></td>
+    <td><%= repair.received %></td>
+    <td>
+      <% if repair.invoice %>
+        <%= link_to repair.returned, invoice_path(repair.invoice) %>
+      <% else %>
+        <%= repair.returned %>
+      <% end %>
+    </td>
+    <td><%= link_to 'Show', repair %></td>
+    <td><%= link_to 'Edit', edit_repair_path(repair) %></td>
+    <td><%= link_to 'Destroy', repair, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+<script>
+$( ".menu" ).menu();
+</script>
+
+<br />
+
+<table width="100%">
+  <tr>
+    <td width="20%"><%= link_to 'New Repair', new_repair_path %></td>
+    <td width="40%" align="center"><%= paginate @repairs %></td>
+    <td width="40%" align="right">
+      <%= form_tag(repairs_path, :method => "get") do %>
+        <%= select_tag(:field_id, options_for_select([['Job', :job], ['Name', :name], ['Item', :item], ['Serial', :serial], ['Received', :received], ['Returned', :returned]], 1)) %>
+        <%= text_field_tag(:search_text) %>
+        <%= submit_tag("Search") %>
+      <% end %>
+    </td>
+  </tr>
+</table>
+
+

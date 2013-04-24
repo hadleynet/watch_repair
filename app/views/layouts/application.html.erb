@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= WatchRepair::Application.config.title %></title>
+  <%= stylesheet_link_tag    "application", :media => "screen, projection" %>
+  <%= stylesheet_link_tag    "application-print", :media => "print" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+<div  class="navigation">
+  <ul id="nav">
+    <li><%= link_to 'Repairs', repairs_path %></li>
+    <li><%= link_to 'Invoices', invoices_path %></li>
+    <li><%= link_to 'Stores', stores_path %></li>
+  </ul>
+</div>
+<%= yield %>
+
+</body>
+</html>

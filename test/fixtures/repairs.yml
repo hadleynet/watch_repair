@@ -1,0 +1,25 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  store: 
+  invoice: 
+  received: 2013-04-18
+  returned: 2013-04-18
+  job: MyString
+  name: MyString
+  item: MyText
+  serial: MyString
+  service: MyText
+  price: 9.99
+
+two:
+  store: 
+  invoice: 
+  received: 2013-04-18
+  returned: 2013-04-18
+  job: MyString
+  name: MyString
+  item: MyText
+  serial: MyString
+  service: MyText
+  price: 9.99

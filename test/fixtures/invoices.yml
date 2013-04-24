@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  store: 
+  number: 1
+  date: 2013-04-18
+  paid: false
+  paid_date: 2013-04-18
+  total: 
+  total: 
+
+two:
+  store: 
+  number: 1
+  date: 2013-04-18
+  paid: false
+  paid_date: 2013-04-18
+  total: 
+  total: 

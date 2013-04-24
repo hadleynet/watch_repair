@@ -1,0 +1,69 @@
+<div id="invoice-head">
+<table width="100%">
+<tr>
+<td align="left" width="30%"><%= invoice.issued.strftime('%B %-d, %Y') %></td>
+<td align="center" width="40%">
+  <%= WatchRepair::Application.config.addressee %><br/>
+  <%= WatchRepair::Application.config.street %><br/>
+  <%= WatchRepair::Application.config.city_state_zip %>
+</td>
+<td align="right" width="30%">Invoice# <%= invoice.number %></td>
+</tr>
+</table>
+</div>
+
+<h1 class="navigation">Invoice: <%= invoice.number %></h1>
+<p>
+  <%= invoice.store.name %><br/>
+  <%= invoice.store.street %><br/>
+  <%= invoice.store.city %>, <%= invoice.store.state %> <%= invoice.store.zip %>
+</p>
+
+<table width="100%">
+  <tr>
+    <th>Job#</th>
+    <th>Name</th>
+    <th>Item</th>
+    <th>ID#</th>
+    <th>Service</th>
+    <th class="total">Price</th>
+  </tr>
+<% current_job = "" %>
+<% invoice.repairs.sort {|x,y| x.job <=> y.job}.each do |repair| %>
+  <tr class="repair">
+    <td valign="top">
+      <% if repair.job != current_job %>
+        <%= repair.job %>
+        <% current_job = repair.job %>
+      <% end %>
+    </td>
+    <td valign="top"><%= repair.name %></td>
+    <td valign="top"><%= link_to repair.item, repair_path(repair) %></td>
+    <td valign="top"><%= repair.serial %></td>
+    <td valign="top"><%= repair.service %></td>
+    <td valign="top" align="right">$<%= number_with_precision(repair.price, :precision => 2) %></td>
+  </tr>
+<% end %>
+  <tr>
+    <td><b>Total<b></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td class="total"><b>$<%= number_with_precision(invoice.total, :precision => 2) %></b></td>
+  </tr>
+</table>
+
+<div id="invoice-foot">
+<br/>
+</br>
+<table width="100%">
+<tr>
+<td align="center" width="40%">
+  <%= WatchRepair::Application.config.phone %><br/>
+  <%= WatchRepair::Application.config.email %><br/>
+  <%= WatchRepair::Application.config.terms %>
+</td>
+</tr>
+</table>
+</div>

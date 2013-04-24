@@ -1,0 +1,20 @@
+<div class="navigation">
+<h1>All Invoices for <%= @invoice_date %></h1>
+<br/>
+<%= link_to 'Back', invoices_path %> | 
+<%= link_to_function("Print", "javascript:print()") %>
+</div>
+
+<% @invoices.each_with_index do |invoice, index| %>
+  <%= render :partial => 'invoice', :locals => { :invoice => invoice } %>
+  <% if index < @invoices.length-1 %>
+    <div class="page-break"></div>
+    <br/><br/><br/>
+  <% end %>
+<% end %>
+
+<div class="navigation">
+<br/>
+<%= link_to 'Back', invoices_path %> | 
+<%= link_to_function("Print", "javascript:print()") %>
+</div>

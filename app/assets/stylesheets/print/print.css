@@ -1,0 +1,47 @@
+body {
+  margin: 0;
+  padding: 0.5in;
+  font-family: times-new-roman, times, serif;
+  font-size: 11pt;
+  font-variant:small-caps;
+  color: black;
+  background-color: white; 
+}
+
+@page {
+  size: auto;   /* auto is the initial value */
+  margin: 0mm;  /* this affects the margin in the printer settings */
+}
+
+.page-break	{
+  display: block; page-break-before: always;
+}
+
+tr.repair {
+  font-size: 10pt;
+}
+
+#notice {
+  display: none;
+}
+
+.navigation {
+  display: none;
+}
+
+a:link {
+  color: black;
+  text-decoration:none;
+}
+a:visited {
+  color: black;
+  text-decoration:none;
+}
+a:hover {
+  color: black;
+  text-decoration:none;
+}
+a:active {
+  color: black;
+  text-decoration:none;
+}

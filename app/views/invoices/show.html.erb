@@ -1,0 +1,12 @@
+<p id="notice"><%= notice %></p>
+
+<%= render :partial => 'invoice', :locals => { :invoice => @invoice } %>
+
+<div class="navigation">
+<br/>
+<%= link_to 'Edit', edit_invoice_path(@invoice) %> |
+<%= link_to 'Back', invoices_path %> | 
+<%= link_to_function("Print", "javascript:print()") %>
+</div>
+
+

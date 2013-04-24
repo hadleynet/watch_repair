@@ -1,0 +1,53 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Store:</b>
+  <%= @repair.store.name %>
+</p>
+
+<p>
+  <b>Job#:</b>
+  <%= @repair.job %> (1 of <%= @repair.batch_count %>)
+</p>
+
+<p>
+  <b>Name:</b>
+  <%= @repair.name %>
+</p>
+
+<p>
+  <b>Item:</b>
+  <%= @repair.item %>
+</p>
+
+<p>
+  <b>ID#:</b>
+  <%= @repair.serial %>
+</p>
+
+<p>
+  <b>Received:</b>
+  <%= @repair.received %>
+</p>
+
+<p>
+  <b>Service:</b>
+  <%= @repair.service %>
+</p>
+
+<p>
+  <b>Price:</b>
+  <%= (number_with_precision(@repair.price, :precision => 2) || 0) %>
+</p>
+
+<p>
+  <b>Returned:</b>
+  <%= @repair.returned %>
+  <% if @repair.invoice %>
+  as part of <%= link_to "Invoice #{@repair.invoice.number}", invoice_path(@repair.invoice) %>
+  <% end %>
+</p>
+
+
+<%= link_to 'Edit', edit_repair_path(@repair) %> |
+<%= link_to 'Back', repairs_path %>

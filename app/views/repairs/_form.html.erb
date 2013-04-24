@@ -1,0 +1,60 @@
+<%= form_for(@repair) do |f| %>
+  <% if @repair.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@repair.errors.count, "error") %> prohibited this repair from being saved:</h2>
+
+      <ul>
+      <% @repair.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <table
+    <tr>
+      <td><%= f.label :store_id %>:</td>
+      <td><%= collection_select(:repair, :store_id, stores, :id, :name, {:prompt => false}, :disabled => !@repair.invoice_id.nil?) %></td>
+    </tr>
+    <tr>
+      <td><%= f.label :job %>#:</td>
+      <td>
+        <%= f.text_field :job, :autofocus => true %>
+        <% if @repair.job %>
+          (1 of <%= @repair.batch_count %>)
+        <% end %>
+      </td>
+    </tr>
+    <tr>
+      <td><%= f.label :name %>:</td>
+      <td><%= f.text_field :name %></td>
+    </tr>
+    <tr>
+      <td valign="top"><%= f.label :item %>:</td>
+      <td><%= f.text_area :item, :size => "22x5" %></td>
+    </tr>
+    <tr>
+      <td><%= f.label 'ID#' %>:</td>
+      <td><%= f.text_field :serial %></td>
+    </tr>
+    <tr>
+      <td><%= f.label :received %>:</td>
+      <td><%= f.datepicker :received, :dateFormat => "yy-mm-dd" %></td>
+    </tr>
+    <tr>
+      <td valign="top"><%= f.label :service %>:</td>
+      <td><%= f.text_area :service, :size => "22x5" %></td>
+    </tr>
+    <tr>
+      <td><%= f.label :price %>:</td>
+      <td><%= f.text_field :price, :class => 'cost', :value => (number_with_precision(f.object.price, :precision => 2) || 0) %></td>
+    </tr>
+    <tr>
+      <td><%= f.label :returned %>:</td>
+      <td><%= f.datepicker :returned, :dateFormat => "yy-mm-dd", :disabled => !@repair.invoice_id.nil? %></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><%= f.submit %></td>
+    </tr>
+  </table>
+<% end %>

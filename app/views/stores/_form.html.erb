@@ -1,0 +1,56 @@
+<%= form_for(@store) do |f| %>
+  <% if @store.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@store.errors.count, "error") %> prohibited this store from being saved:</h2>
+
+      <ul>
+      <% @store.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <table>
+    <tr>
+      <td><%= f.label :name %>:</td>
+      <td><%= f.text_field :name, :autofocus => true %></td>
+    </tr>
+    <tr>
+      <td><%= f.label :street %>:</td>
+      <td><%= f.text_field :street %></td>
+    </tr>
+    <tr>
+      <td><%= f.label :city %>:</td>
+      <td><%= f.text_field :city %></td>
+    </tr>
+    <tr>
+      <td><%= f.label :state %>:</td>
+      <td><%= f.text_field :state %></td>
+    </tr>
+    <tr>
+      <td><%= f.label :zip %>:</td>
+      <td><%= f.text_field :zip %></td>
+    </tr>
+    <tr>
+      <td><%= f.label :tel %>:</td>
+      <td><%= f.text_field :tel %></td>
+    </tr>
+    <tr>
+      <td><%= f.label :fax %>:</td>
+      <td><%= f.text_field :fax %></td>
+    </tr>
+    <tr>
+      <td><%= f.label :email %>:</td>
+      <td><%= f.text_field :email %></td>
+    </tr>
+    <tr>
+      <td><%= f.label :contact %>:</td>
+      <td><%= f.text_field :contact %></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><%= f.submit %></td>
+    </tr>
+  </table>
+<% end %>
