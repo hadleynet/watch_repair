@@ -11,6 +11,6 @@ WatchRepair::Application.configure do
   config.street = '63 Averill Road'
   config.city_state_zip = 'Brookline, NH 03033'
   config.phone = 'Phone/Fax: 603.673.9158'
-  config.email = 'Email: martykale@gmail.com'
+  config.email = 'martykale@gmail.com'
   config.terms = 'Net Amount Due In 30 Days'
 end

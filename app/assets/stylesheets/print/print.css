@@ -29,6 +29,10 @@ tr.repair {
   display: none;
 }
 
+span.email {
+  font-variant: normal;
+}
+
 a:link {
   color: black;
   text-decoration:none;

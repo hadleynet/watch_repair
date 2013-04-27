@@ -66,7 +66,7 @@ class InvoicesController < ApplicationController
       buffer = StringIO.new
       Qif::Writer.new(buffer, type='Bank', format='mm/dd/yyyy') do |writer|
         @invoices.each do |invoice|
-          writer << Qif::Transaction.new(:date => invoice.issued, :amount => invoice.total, :reference => "#{invoice.number}", :payee => invoice.store.name)
+          writer << Qif::Transaction.new(:date => invoice.issued, :amount => invoice.total, :number => "#{invoice.number}", :payee => invoice.store.name)
         end
       end
       buffer.close
