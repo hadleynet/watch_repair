@@ -64,7 +64,7 @@ class InvoicesController < ApplicationController
     @invoices = Invoice.for_date(@invoice_date)
     if params[:commit] == 'Quicken'
       buffer = StringIO.new
-      Qif::Writer.new(buffer, type='Bank', format='dd/mm/yyy') do |writer|
+      Qif::Writer.new(buffer, type='Bank', format='mm/dd/yyyy') do |writer|
         @invoices.each do |invoice|
           writer << Qif::Transaction.new(:date => invoice.issued, :amount => invoice.total, :memo => "Invoice #{invoice.number}", :payee => invoice.store.name)
         end
