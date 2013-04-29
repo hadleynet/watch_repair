@@ -2,7 +2,7 @@ class StoresController < ApplicationController
   # GET /stores
   # GET /stores.json
   def index
-    @stores = Store.all
+    @stores = Store.ordered_by_name
 
     respond_to do |format|
       format.html # index.html.erb
