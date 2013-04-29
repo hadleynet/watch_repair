@@ -13,7 +13,11 @@
   <table
     <tr>
       <td><%= f.label :store_id %>:</td>
+      <% if @last_store_id %>
+      <td><%= collection_select(:repair, :store_id, stores, :id, :name, {:prompt => false, :selected => @last_store_id}, :disabled => !@repair.invoice_id.nil?) %></td>
+      <% else %>
       <td><%= collection_select(:repair, :store_id, stores, :id, :name, {:prompt => false}, :disabled => !@repair.invoice_id.nil?) %></td>
+      <% end %>
     </tr>
     <tr>
       <td><%= f.label :job %>#:</td>
@@ -38,7 +42,7 @@
     </tr>
     <tr>
       <td><%= f.label :received %>:</td>
-      <td><%= f.datepicker :received, :dateFormat => "yy-mm-dd" %></td>
+      <td><%= f.datepicker :received, :value => f.object.received.strftime('%m/%d/%Y') %></td>
     </tr>
     <tr>
       <td valign="top"><%= f.label :service %>:</td>
@@ -50,7 +54,11 @@
     </tr>
     <tr>
       <td><%= f.label :returned %>:</td>
-      <td><%= f.datepicker :returned, :dateFormat => "yy-mm-dd", :disabled => !@repair.invoice_id.nil? %></td>
+      <% if f.object.returned %>
+      <td><%= f.datepicker :returned, :value => f.object.returned.strftime('%m/%d/%Y'), :disabled => !@repair.invoice_id.nil? %></td>
+      <% else %>
+      <td><%= f.datepicker :returned, :disabled => !@repair.invoice_id.nil? %></td>
+      <% end %>      
     </tr>
     <tr>
       <td></td>

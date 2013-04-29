@@ -42,15 +42,16 @@ class InvoicesController < ApplicationController
   
   def daily
     if params[:invoice][:issued] && params[:invoice][:issued].length > 0
-      @invoice_date = Date.parse(params[:invoice][:issued])
+      @invoice_date = Date.strptime(params[:invoice][:issued], '%m/%d/%Y')
+      params[:invoice][:issued] = @invoice_date.to_s
     else
       @invoice_date = Date.today
     end
     if params[:commit] == 'Create'
-      stores = Repair.stores_with_repairs(@invoice_date).collect {|r| r.store_id}
-      stores.each do |store_id|
+      stores = Repair.stores_with_repairs(@invoice_date)
+      stores.each do |store|
         invoice = Invoice.new(params[:invoice])
-        invoice.store_id = store_id
+        invoice.store_id = store.id
         invoice.number = (Invoice.maximum(:number) || WatchRepair::Application.config.invoice_start_number) + 1
         invoice.save!
         Repair.unassigned(invoice.store_id, invoice.issued).each do |repair|

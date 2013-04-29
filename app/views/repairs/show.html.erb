@@ -27,7 +27,7 @@
 
 <p>
   <b>Received:</b>
-  <%= @repair.received %>
+  <%= @repair.received.strftime '%m/%d/%Y' %>
 </p>
 
 <p>
@@ -42,9 +42,11 @@
 
 <p>
   <b>Returned:</b>
-  <%= @repair.returned %>
-  <% if @repair.invoice %>
-  as part of <%= link_to "Invoice #{@repair.invoice.number}", invoice_path(@repair.invoice) %>
+  <% if @repair.returned %>
+    <%= @repair.returned.strftime '%m/%d/%Y' %>
+    <% if @repair.invoice %>
+    as part of <%= link_to "Invoice #{@repair.invoice.number}", invoice_path(@repair.invoice) %>
+    <% end %>
   <% end %>
 </p>
 

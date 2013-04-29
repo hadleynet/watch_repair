@@ -1,5 +1,5 @@
 <div class="navigation">
-<h1>All Invoices for <%= @invoice_date %></h1>
+<h1>All Invoices for <%= @invoice_date.strftime '%m/%d/%Y' %></h1>
 <br/>
 <%= link_to 'Back', invoices_path %> | 
 <%= link_to_function("Print", "javascript:print()") %>

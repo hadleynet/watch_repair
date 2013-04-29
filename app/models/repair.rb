@@ -8,7 +8,9 @@ class Repair < ActiveRecord::Base
   end
   
   def self.stores_with_repairs(returned)
-    Repair.select('DISTINCT store_id').where('returned = ? AND invoice_id IS NULL', returned)
+    repairs = Repair.select('DISTINCT store_id').where('returned = ? AND invoice_id IS NULL', returned)
+    store_ids = repairs.collect {|r| r.store_id}
+    Store.where(:id => store_ids).order('name ASC')
   end
   
   def batch_count

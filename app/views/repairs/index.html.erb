@@ -1,5 +1,5 @@
 <% if @search_field %>
-<h1>Repairs where <%= @search_field.capitalize %> matches "<%= @search_text %>"</h1>
+<h1>Repairs where <%= @search_field.capitalize %> matches "<%= @search_text %>" - Total <%= @repair_count %></h1>
 <% else %>
 <h1>Repairs</h1>
 <% end %>
@@ -25,12 +25,14 @@
     <td><%= repair.name %></td>
     <td><%= repair.item %></td>
     <td><%= repair.serial %></td>
-    <td><%= repair.received %></td>
+    <td><%= repair.received.strftime '%m/%d/%Y' %></td>
     <td>
-      <% if repair.invoice %>
-        <%= link_to repair.returned, invoice_path(repair.invoice) %>
-      <% else %>
-        <%= repair.returned %>
+      <% if repair.returned %>
+        <% if repair.invoice %>
+          <%= link_to(repair.returned.strftime('%m/%d/%Y'), invoice_path(repair.invoice)) %>
+        <% else %>
+          <%= repair.returned.strftime '%m/%d/%Y' %>
+        <% end %>
       <% end %>
     </td>
     <td><%= link_to 'Show', repair %></td>
@@ -51,7 +53,7 @@ $( ".menu" ).menu();
     <td width="40%" align="center"><%= paginate @repairs %></td>
     <td width="40%" align="right">
       <%= form_tag(repairs_path, :method => "get") do %>
-        <%= select_tag(:field_id, options_for_select([['Job', :job], ['Name', :name], ['Item', :item], ['Serial', :serial], ['Received', :received], ['Returned', :returned]], 1)) %>
+        <%= select_tag(:field_id, options_for_select([['Store', :store], ['Job', :job], ['Name', :name], ['Item', :item], ['Serial', :serial], ['Received', :received], ['Returned', :returned]], 1)) %>
         <%= text_field_tag(:search_text) %>
         <%= submit_tag("Search") %>
       <% end %>

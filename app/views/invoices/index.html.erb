@@ -17,7 +17,11 @@
 <% @invoices.each do |invoice| %>
   <tr>
     <td><%= invoice.store.name %></td>
-    <td><%= invoice.issued %></td>
+    <td>
+    <% if invoice.issued %>
+    <%= invoice.issued.strftime '%m/%d/%Y' %>
+    <% end %>
+    </td>
     <td><%= invoice.number %></td>
     <td><%= invoice.repairs.length %></td>
     <td>$<%= number_with_precision(invoice.total, :precision => 2)  %></td>
@@ -31,7 +35,7 @@
 <%= paginate @invoices %>
 
 <%= form_tag(daily_invoices_path, :method => "post") do %>
-  Date:<%= datepicker_input :invoice, :issued, :dateFormat => "yy-mm-dd" %>
+  Date:<%= datepicker_input :invoice, :issued %>
   <%= submit_tag("Create") %>
   <%= submit_tag("View") %>
   <%= submit_tag("Quicken") %>
