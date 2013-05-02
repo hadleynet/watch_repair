@@ -53,7 +53,7 @@ $( ".menu" ).menu();
     <td width="40%" align="center"><%= paginate @repairs %></td>
     <td width="40%" align="right">
       <%= form_tag(repairs_path, :method => "get") do %>
-        <%= select_tag(:field_id, options_for_select([['Store', :store], ['Job', :job], ['Name', :name], ['Item', :item], ['Serial', :serial], ['Received', :received], ['Returned', :returned]], 1)) %>
+        <%= select_tag(:field_id, options_for_select([['Store', :store], ['Job', :job], ['Name', :name], ['Item', :item], ['Serial', :serial], ['Received', :received], ['Returned', :returned]], :job)) %>
         <%= text_field_tag(:search_text) %>
         <%= submit_tag("Search") %>
       <% end %>
