@@ -1,3 +1,7 @@
+<% if notice && notice.length > 0 %>
+<p><span id="notice"><%= notice %></span></p>
+<% end %>
+
 <% if @search_field %>
 <h1>Repairs where <%= @search_field.capitalize %> matches "<%= @search_text %>" - Total <%= @repair_count %></h1>
 <% else %>
@@ -43,13 +47,20 @@
 </table>
 <script>
 $( ".menu" ).menu();
+$(document).keypress(
+  function(event) {
+    if(event.keyCode==13) {
+      window.location.href = "<%= new_repair_path %>";
+    }
+  }
+);
 </script>
 
 <br />
 
 <table width="100%">
   <tr>
-    <td width="20%"><%= link_to 'New Repair', new_repair_path %></td>
+    <td width="20%"><%= link_to 'New Repair', new_repair_path, :id => 'new_repair' %></td>
     <td width="40%" align="center"><%= paginate @repairs %></td>
     <td width="40%" align="right">
       <%= form_tag(repairs_path, :method => "get") do %>

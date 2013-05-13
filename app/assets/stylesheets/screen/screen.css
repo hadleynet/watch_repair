@@ -2,6 +2,10 @@ h1 {
   font-size: 16pt;
 }
 
+#notice {
+  background-color: #f2f200;
+}
+
 .page-break	{
   display: none;
 }

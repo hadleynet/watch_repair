@@ -90,7 +90,7 @@ class RepairsController < ApplicationController
 
     respond_to do |format|
       if @repair.save
-        format.html { redirect_to @repair, notice: 'Repair was successfully created.' }
+        format.html { redirect_to repairs_url, notice: 'Repair was successfully created.' }
         format.json { render json: @repair, status: :created, location: @repair }
       else
         format.html { render action: "new" }
@@ -109,7 +109,7 @@ class RepairsController < ApplicationController
         if @repair.invoice
           @repair.invoice.update_total_and_save!
         end
-        format.html { redirect_to @repair, notice: 'Repair was successfully updated.' }
+        format.html { redirect_to repairs_url, notice: 'Repair was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
