@@ -25,18 +25,29 @@ class RepairsController < ApplicationController
     if params[:field_id] && params[:search_text]
       @search_field = params[:field_id]
       @search_text = params[:search_text]
-      if params[:field_id] == 'store'
+      if params[:field_id] == 'price'
+        values = @search_text.split('-')
+        min = 0.0
+        max = 10000.0
+        if values.length > 1
+          min = values[0].to_f
+          max = values[1].to_f
+        elsif values.length > 0
+          min = values[0].to_f
+        end
+        @search_text = '%.2f - %.2f' % [min, max]
+        @repairs = Repair.where('price >= ? AND price <= ?', min, max).order('received DESC')
+      elsif params[:field_id] == 'store'
         stores = Store.where(Store.arel_table['name'].matches("%#{@search_text}%"))
         store_ids = stores.collect{|store| store.id}
         @repairs = Repair.where(:store_id => store_ids).order('received DESC')
-        @repair_count = @repairs.length
       else
         repair_fields = Repair.arel_table
         @search_field = params[:field_id]
         @search_text = params[:search_text]
         @repairs = Repair.where(repair_fields[@search_field].matches("%#{@search_text}%")).order('received DESC')
-        @repair_count = @repairs.length
       end
+      @repair_count = @repairs.length
     else
       @repairs = Repair.order('received DESC')
     end
