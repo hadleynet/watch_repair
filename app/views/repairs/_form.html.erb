@@ -22,7 +22,7 @@
     <tr>
       <td><%= f.label :job %>#:</td>
       <td>
-        <%= f.text_field :job, :autofocus => true %>
+        <%= f.text_field :job, :autofocus => (source == :new) %>
         <% if @repair.job %>
           (1 of <%= @repair.batch_count %>)
         <% end %>
@@ -46,7 +46,9 @@
     </tr>
     <tr>
       <td valign="top"><%= f.label :service %>:</td>
-      <td><%= f.text_area :service, :size => "22x5" %></td>
+      <td>
+        <%= f.text_area :service, :size => "22x5", :autofocus => (source == :edit)  %>
+      </td>
     </tr>
     <tr>
       <td><%= f.label :price %>:</td>

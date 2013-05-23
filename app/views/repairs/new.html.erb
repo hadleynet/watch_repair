@@ -1,6 +1,6 @@
 <h1>New Repair</h1>
 
-<%= render :partial => 'form', :locals => { :repair => @repair, :stores => @stores } %>
+<%= render :partial => 'form', :locals => { :stores => @stores, :source => :new } %>
 
 <br/>
 <%= link_to 'Back', repairs_path %>
