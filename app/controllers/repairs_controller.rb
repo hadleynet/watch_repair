@@ -4,6 +4,7 @@ class RepairsController < ApplicationController
   
   def patch_dates
     if params[:repair]
+      # update or create a repair
       if params[:repair][:received] && params[:repair][:received].length > 0
         params[:repair][:received] = Date.strptime(params[:repair][:received], '%m/%d/%Y').to_s
       end
@@ -11,12 +12,37 @@ class RepairsController < ApplicationController
         params[:repair][:returned] = Date.strptime(params[:repair][:returned], '%m/%d/%Y').to_s
       end
     elsif params[:field_id] == 'received' || params[:field_id] == 'returned'
+      # search for repairs by date
       begin
-        params[:search_text] = Date.strptime(params[:search_text], '%m/%d/%Y').to_s
+        if params[:search_text].include?('-')
+          start_date = Date.new(2000,1,1).to_s
+          end_date = Date.new(2050,1,1).to_s
+          params[:start_date], params[:end_date] = split_range(params[:search_text], start_date, end_date, lambda{|i| Date.strptime(i, '%m/%d/%Y').to_s })
+          params[:search_text] = "#{params[:start_date]} - #{params[:end_date]}"
+        else
+          params[:search_text] = Date.strptime(params[:search_text], '%m/%d/%Y').to_s
+        end
       rescue Exception=>e
-        # swallow the conversion and just treat it as a simple text search
+        # swallow the exception and just treat it as a simple text search
       end
     end
+  end
+  
+  def split_range(range, min, max, formatter)
+    values = range.split('-')
+    if values.length > 1
+      if values[0].length>0
+        min = formatter[values[0]]
+      end
+      if values[1].length>0
+        max = formatter[values[1]]
+      end
+    elsif values.length > 0
+      if values[0].length>0
+        min = formatter[values[0]]
+      end
+    end
+    [min,max]
   end
 
   # GET /repairs
@@ -26,21 +52,15 @@ class RepairsController < ApplicationController
       @search_field = params[:field_id]
       @search_text = params[:search_text]
       if params[:field_id] == 'price'
-        values = @search_text.split('-')
-        min = 0.0
-        max = 10000.0
-        if values.length > 1
-          min = values[0].to_f
-          max = values[1].to_f
-        elsif values.length > 0
-          min = values[0].to_f
-        end
+        min, max = split_range(@search_text, 0.0, 10000.0, lambda{|i| i.to_f})
         @search_text = '%.2f - %.2f' % [min, max]
         @repairs = Repair.where('price >= ? AND price <= ?', min, max).order('received DESC')
       elsif params[:field_id] == 'store'
         stores = Store.where(Store.arel_table['name'].matches("%#{@search_text}%"))
         store_ids = stores.collect{|store| store.id}
         @repairs = Repair.where(:store_id => store_ids).order('received DESC')
+      elsif (params[:field_id] == 'received' || params[:field_id] == 'returned') && params[:start_date]
+        @repairs = Repair.where("#{params[:field_id]} >= ? AND #{params[:field_id]} <= ?", params[:start_date], params[:end_date])
       else
         repair_fields = Repair.arel_table
         @search_field = params[:field_id]
