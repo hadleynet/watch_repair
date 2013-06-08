@@ -3,7 +3,7 @@
 <% end %>
 
 <% if @search_field %>
-<h1>Repairs where <%= @search_field.capitalize %> matches "<%= @search_text %>" - Total <%= @repair_count %></h1>
+<h1>Repairs where <%= @search_field.capitalize %> matches "<%= session[:search_text] %>" - Total <%= @repair_count %></h1>
 <% else %>
 <h1>Repairs</h1>
 <% end %>
@@ -64,10 +64,14 @@ $(document).keypress(
     <td width="40%" align="center"><%= paginate @repairs %></td>
     <td width="40%" align="right">
       <%= form_tag(repairs_path, :method => "get") do %>
+        <% selected = :job %>
+        <% if session[:search_field] %>
+          <% selected = session[:search_field].intern %>
+        <% end %>
         <%= select_tag(:field_id, options_for_select([
           ['Store', :store], ['Job', :job], ['Name', :name], ['Item', :item], ['Serial', :serial], 
-          ['Received', :received], ['Service', :service], ['Returned', :returned], ['Price', :price]], :job)) %>
-        <%= text_field_tag(:search_text) %>
+          ['Received', :received], ['Service', :service], ['Returned', :returned], ['Price', :price]], selected)) %>
+        <%= text_field_tag(:search_text, session[:search_text]) %>
         <%= submit_tag("Search") %>
       <% end %>
     </td>

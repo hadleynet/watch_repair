@@ -3,6 +3,10 @@ class RepairsController < ApplicationController
   before_filter :patch_dates
   
   def patch_dates
+    if params[:field_id]
+      session[:search_text] = params[:search_text]
+      session[:search_field] = params[:field_id]
+    end
     if params[:repair]
       # update or create a repair
       if params[:repair][:received] && params[:repair][:received].length > 0
