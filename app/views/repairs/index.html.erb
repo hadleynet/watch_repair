@@ -71,7 +71,7 @@ $(document).keypress(
         <%= select_tag(:field_id, options_for_select([
           ['Store', :store], ['Job', :job], ['Name', :name], ['Item', :item], ['Serial', :serial], 
           ['Received', :received], ['Service', :service], ['Returned', :returned], ['Price', :price]], selected)) %>
-        <%= text_field_tag(:search_text, session[:search_text]) %>
+        <%= text_field_tag(:search_text) %>
         <%= submit_tag("Search") %>
       <% end %>
     </td>

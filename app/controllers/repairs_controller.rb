@@ -65,6 +65,8 @@ class RepairsController < ApplicationController
         @repairs = Repair.where(:store_id => store_ids).order('received DESC')
       elsif (params[:field_id] == 'received' || params[:field_id] == 'returned') && params[:start_date]
         @repairs = Repair.where("#{params[:field_id]} >= ? AND #{params[:field_id]} <= ?", params[:start_date], params[:end_date])
+      elsif (params[:field_id] == 'job')
+        @repairs = Repair.where("#{params[:field_id]} = ?", params[:search_text])
       else
         repair_fields = Repair.arel_table
         @search_field = params[:field_id]
@@ -79,8 +81,12 @@ class RepairsController < ApplicationController
     @repairs = @repairs.page params[:page]
 
     respond_to do |format|
-      format.html # index.html.erb
       format.json { render json: @repairs }
+      if params[:field_id]=='job' && @repairs.length==1
+        format.html {redirect_to edit_repair_url(@repairs[0])}
+      else
+        format.html # index.html.erb
+      end
     end
   end
 
