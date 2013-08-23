@@ -27,7 +27,7 @@
 
 <p>
   <b>Received:</b>
-  <%= @repair.received.strftime '%m/%d/%Y' %>
+  <%= @repair.received.strftime('%m/%d/%Y') if @repair.received %>
 </p>
 
 <p>

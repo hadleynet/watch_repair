@@ -29,7 +29,7 @@
     <td><%= repair.name %></td>
     <td><%= repair.item %></td>
     <td><%= repair.serial %></td>
-    <td><%= repair.received.strftime '%m/%d/%Y' %></td>
+    <td><%= repair.received.strftime('%m/%d/%Y') if repair.received %></td>
     <td>
       <% if repair.returned %>
         <% if repair.invoice %>
