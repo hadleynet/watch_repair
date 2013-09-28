@@ -4,7 +4,7 @@ class RepairsController < ApplicationController
   
   def patch_dates
     if params[:field_id]
-      session[:search_text] = params[:search_text]
+      session[:search_text] = params[:search_text].strip
       session[:search_field] = params[:field_id]
     end
     if params[:repair]
@@ -54,28 +54,27 @@ class RepairsController < ApplicationController
   def index
     if params[:field_id] && params[:search_text]
       @search_field = params[:field_id]
-      @search_text = params[:search_text]
+      @search_text = params[:search_text].strip
       if params[:field_id] == 'price'
         min, max = split_range(@search_text, 0.0, 10000.0, lambda{|i| i.to_f})
         @search_text = '%.2f - %.2f' % [min, max]
-        @repairs = Repair.where('price >= ? AND price <= ?', min, max).order('received DESC')
+        @repairs = Repair.where('price >= ? AND price <= ?', min, max)
       elsif params[:field_id] == 'store'
         stores = Store.where(Store.arel_table['name'].matches("%#{@search_text}%"))
         store_ids = stores.collect{|store| store.id}
-        @repairs = Repair.where(:store_id => store_ids).order('received DESC')
+        @repairs = Repair.where(:store_id => store_ids)
       elsif (params[:field_id] == 'received' || params[:field_id] == 'returned') && params[:start_date]
         @repairs = Repair.where("#{params[:field_id]} >= ? AND #{params[:field_id]} <= ?", params[:start_date], params[:end_date])
       elsif (params[:field_id] == 'job')
         @repairs = Repair.where("#{params[:field_id]} = ?", params[:search_text])
       else
         repair_fields = Repair.arel_table
-        @search_field = params[:field_id]
-        @search_text = params[:search_text]
-        @repairs = Repair.where(repair_fields[@search_field].matches("%#{@search_text}%")).order('received DESC')
+        @repairs = Repair.where(repair_fields[@search_field].matches("%#{@search_text}%"))
       end
+      @repairs = @repairs.order('received DESC').order('returned DESC')
       @repair_count = @repairs.length
     else
-      @repairs = Repair.order('received DESC')
+      @repairs = Repair.order('received DESC').order('returned DESC')
     end
     
     @repairs = @repairs.page params[:page]
